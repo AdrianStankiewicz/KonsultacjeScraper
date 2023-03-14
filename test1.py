@@ -11,6 +11,9 @@ soup = BeautifulSoup(response.content, "html.parser")
 # Find all the rows in the table
 rows = soup.find_all('tr')
 
+# Open the fileStream to append data
+f = open("konsultacje.txt", "a", encoding="utf-8")
+
 # Loop through each row and extract the data
 for row in rows:
 
@@ -29,4 +32,6 @@ for row in rows:
             clearCell = clearCell.replace('\t', '')
             #clearCell = clearCell.replace('\n', '')
             
-            print(clearCell)
+            print(clearCell)            
+            f.write(clearCell)
+f.write('\n')
