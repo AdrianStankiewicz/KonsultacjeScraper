@@ -6,7 +6,7 @@ url = "https://we.umg.edu.pl/ktm/konsultacje"
 response = requests.get(url)
 
 # Parse the HTML content
-soup = BeautifulSoup(response.content)
+soup = BeautifulSoup(response.content, "html.parser")
 
 # Find all the rows in the table
 rows = soup.find_all('tr')
