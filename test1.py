@@ -5,33 +5,31 @@ from bs4 import BeautifulSoup
 url = "https://we.umg.edu.pl/ktm/konsultacje"
 response = requests.get(url)
 
-# Parse the HTML content
-soup = BeautifulSoup(response.content, "html.parser")
+soup = BeautifulSoup(response.content, 'html.parser')
 
-# Find all the rows in the table
-rows = soup.find_all('tr')
+dirty_h3s = soup.find_all('h3')
 
-# Open the fileStream to append data
-f = open("konsultacje.txt", "a", encoding="utf-8")
+professors = []
+rooms = []
 
-# Loop through each row and extract the data
-for row in rows:
+for dirty_h3 in dirty_h3s:
+    professor = []
 
-    # Find all the cells in each row
-    cells = row.find_all("td")
+    for child in dirty_h3:
+        if child.name == 'br':
+            continue
 
-    # check if cells isn't empty
-    if bool(cells):
-        for cell in cells:
-            tag = soup.new_tag("br")
-            tag.string = "\n"
-            cell.replace_with(tag)
-            
-            clearCell = cell.text
+        child = child.string.replace('\t', '').replace('\n', '')
 
-            clearCell = clearCell.replace('\t', '')
-            #clearCell = clearCell.replace('\n', '')
-            
-            print(clearCell)            
-            f.write(clearCell)
-f.write('\n')
+        if 'pok.' in child:
+            rooms.append(child)
+        else:
+            professor.append(child)
+        
+    professors.append(professor)
+
+print('Count professors: ' + str(len(professors)))
+print(professors)
+print('=================')
+print('Count rooms: ' + str(len(rooms)))
+print(rooms)
