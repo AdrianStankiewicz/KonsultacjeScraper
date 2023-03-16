@@ -7,15 +7,15 @@ response = requests.get(url)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
-dirty_h3s = soup.find_all('h3')
+badProfessors = soup.find_all('h3')
 
 professors = []
 rooms = []
 
-for dirty_h3 in dirty_h3s:
+for badProfessor in badProfessors:
     professor = []
 
-    for child in dirty_h3:
+    for child in badProfessor:
         if child.name == 'br':
             continue
 
