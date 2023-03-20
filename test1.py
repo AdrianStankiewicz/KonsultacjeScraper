@@ -7,16 +7,16 @@ response = requests.get(url)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
-badProfessors = soup.find_all('h3')
+roomsProfessors = soup.find_all('h3')
 
 # Lists for sorted data
 professors = []
 rooms = []
 
-for badProfessor in badProfessors:
+for roomProfessor in roomsProfessors:
     professor = []
 
-    for child in badProfessor:
+    for child in roomProfessor:
         if child.name == 'br':
             continue
 
