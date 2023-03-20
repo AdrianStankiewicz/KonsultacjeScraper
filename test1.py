@@ -9,6 +9,7 @@ soup = BeautifulSoup(response.content, 'html.parser')
 
 badProfessors = soup.find_all('h3')
 
+# Lists for sorted data
 professors = []
 rooms = []
 
