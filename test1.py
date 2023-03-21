@@ -1,36 +1,29 @@
 import requests
+import json
 from bs4 import BeautifulSoup
 
 # Make a GET request to the URL
-url = "https://we.umg.edu.pl/ktm/konsultacje"
+url = 'https://we.umg.edu.pl/ktm/konsultacje'
 response = requests.get(url)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
-roomsProfessors = soup.find_all('h3')
+# List for data scraped
+data = []
 
-# Lists for sorted data
-professors = []
-rooms = []
+for p in soup.select('tr:has(h3)'):
+    d = {
+        'prof': p.h3.contents[0].strip(),
+        'room': p.h3.contents[-1].string.strip(),
+        'times': []
+    }
 
-for roomProfessor in roomsProfessors:
-    professor = []
+    for e in p.find_next_siblings('tr'):
+        if e.h3:
+            break
+        if len(e.text.strip()) > 1 and not e.h5:
+            d['times'].append(e.get_text('|',strip=True))
+    data.append(d)
 
-    for child in roomProfessor:
-        if child.name == 'br':
-            continue
-
-        child = child.string.replace('\t', '').replace('\n', '')
-
-        if 'pok.' in child:
-            rooms.append(child)
-        else:
-            professor.append(child)
-        
-    professors.append(professor)
-
-print('Count professors: ' + str(len(professors)))
-print(professors)
-print('=================')
-print('Count rooms: ' + str(len(rooms)))
-print(rooms)
+json_object = json.dumps(data, indent = 4, ensure_ascii = False) 
+print(json_object)
