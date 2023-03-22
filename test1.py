@@ -30,5 +30,5 @@ for url in urls:
                 d['times'].append(e.get_text('|',strip=True))
         data.append(d)
 
-json_object = json.dumps(data, indent = 4, ensure_ascii = False) 
-print(json_object)
+with open('konsultacje.json', 'w') as outfile:
+    json.dump(data, outfile, indent = 4, ensure_ascii = False)
