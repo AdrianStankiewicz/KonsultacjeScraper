@@ -16,6 +16,7 @@ for url in urls:
     soup = BeautifulSoup(response.content, 'html.parser')
     
     for p in soup.select('tr:has(h3)'):
+        print(p.prettify())
         d = {
             'organisation': url.split('/')[-2],
             'proffessor': p.h3.contents[0].strip(),
@@ -24,6 +25,7 @@ for url in urls:
         }
 
         for e in p.find_next_siblings('tr'):
+            print(e.prettify())
             if e.h3:
                 break
             if len(e.text.strip()) > 1 and not e.h5:
