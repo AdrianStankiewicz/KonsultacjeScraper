@@ -17,6 +17,7 @@ for url in urls:
     
     for p in soup.select('tr:has(h3)'):
         d = {
+            'organisation': url.split('/')[-2],
             'proffessor': p.h3.contents[0].strip(),
             'room': p.h3.contents[-1].string.strip(),
             'times': []
